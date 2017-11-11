@@ -8,5 +8,5 @@ recursionBig(a_n0::BigFloat, a_n1::BigFloat)    = BigFloat(2)*a_n0 - BigFloat(8)
 function plot_true()
     x = 1:80
     y = 3/2*(2/3).^x
-    plt[:plot](x,y, label="True Function", color="red", ls="--", linewidth=3)
+    plt[:plot](x,y, label="True Function", color="purple", ls="--", linewidth=3)
 end
