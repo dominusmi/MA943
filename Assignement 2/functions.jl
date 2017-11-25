@@ -20,7 +20,7 @@ end
 # list: linked list to search
 # k: key to search for
 # @return
-# ::Pair: Pairnode with key 'k' if found, othw 'false'
+# KVPair: Pairnode with key 'k' if found, othw 'false'
 function search_list(list::Nullable{LList}, k::Int)
     if isnull( get(list).next )
         # Check whether at leaf node
@@ -40,7 +40,7 @@ end
 # @param
 # size: size of the linked list
 # @return
-# list::Nullable{LList}
+# Nullable{LList}
 function generate_llist(size::Int)
     arr = Array(KVPair,0)
     for i in 1:size
@@ -57,7 +57,7 @@ end
 # rng: random generator
 # @return
 # Nullable{LList}: The generated list
-# Array{floats}: the array containing the cumulative sum at every node
+# Array{floats}: the array containing the cumulative sum at every node (used for testing)
 function generate_cumulative_llist(size::Int, rng)
     # Set number of intervals
     n=size
@@ -71,7 +71,6 @@ function generate_cumulative_llist(size::Int, rng)
     for i in 1:n
         cumsum[i+1] = cumsum[i] + X[i]
         push!(pairs, KVPair(i, cumsum[i+1]))
-
     end
 
     return buildLList(pairs), cumsum
@@ -82,7 +81,7 @@ end
 # list: list to search
 # x: float whose interval is being searched
 # @return
-# Pair: pair of key-value which contains x
+# KVPair: pair of key-value which contains x
 function intervalmembership(list::Nullable{LList}, x::Float64)
     if isnull(list)
         return -1
@@ -91,7 +90,7 @@ function intervalmembership(list::Nullable{LList}, x::Float64)
         if node.data.value > x
             return node.data
         else
-            return intervalmembership_brute(node.next,x)
+            return intervalmembership(node.next,x)
         end
     end
 end
@@ -101,7 +100,7 @@ end
 # FT: Tree to search
 # x: value to search
 # @return
-# Pair: pair object containing the value x
+# KVPair: pair object containing the value x
 function intervalmembership(FT::Nullable{FTree}, x::Float64)
     if isnull(FT)
         # Really shouldn't happen ...
@@ -131,7 +130,6 @@ end
 # X: interval
 # P1: theoretical solution
 # P: numerical solution
-
 function brute_diffusion(N,T)
 
     L  = 10.0
